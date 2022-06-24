@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Post;
+use App\Models\Category;
+use App\Models\Tag;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostRequest;
-use App\Models\Category;
 
 class PostController extends Controller
 {
@@ -29,10 +30,10 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::all();
-
+        $tags = Tag::all();
         //dd($categories);
 
-        return view('admin.posts.create', compact('categories'));
+        return view('admin.posts.create', compact('categories', 'tags'));;
     }
 
     /**
@@ -45,17 +46,16 @@ class PostController extends Controller
     {
         //dd($request->all());
 
-        // Validate data
+        // Validate data e taga 
         $val_data = $request->validated();
-        // Gererate the slug
 
         $slug = Post::generateSlug($request->title);
-        // $slug = Str::slug($request->title, '-');
-        //dd($slug);
         $val_data['slug'] = $slug;
 
         // create the resource
-        Post::create($val_data);
+        $new_post = Post::create($val_data);
+        $new_post->tags()->attach($request->tags);
+
         // redirect to a get route
         return redirect()->route('admin.posts.index')->with('message', 'Post creato con successo');
     }
@@ -80,8 +80,17 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         $categories = Category::all();
+        $tags = Tag::all();
 
-        return view('admin.posts.edit', compact('post', 'categories'));
+        /* con questa soluzione poi su compact si mette $data e basta
+            $data = [
+                'post' => $post,
+                'categories' => Category::all(),
+                'tags' => Tag::all(),
+            ]; 
+        */
+
+        return view('admin.posts.edit', compact('post', 'categories', 'tags')); // invece che compact si scrive $data
     }
 
     /**
@@ -93,21 +102,23 @@ class PostController extends Controller
      */
     public function update(PostRequest $request, Post $post)
     {
-        /* Rule::unique('post')->ignore($post->title, 'title');
-        Rule::unique('posts')->ignore($post->id, 'title');
-        Rule::unique('posts')->ignore($post); */
+        //dd($request->all());
 
+        // validate data
         $val_data = $request->validated();
-        //dd($val_data);
 
         $slug = Post::generateSlug($request->title);
         //dd($slug);
 
         $val_data['slug'] = $slug;
-
-
+        
+        // update the resource
         $post->update($val_data);
 
+        // Sync tags
+        $post->tags()->sync($request->tags);
+
+        // redirect to get route
         return redirect()->route('admin.posts.index')->with('message', "$post->title modificato con successo!");
     }
 

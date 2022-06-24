@@ -27,6 +27,8 @@ Route::middleware('auth')->prefix('admin')->namespace('Admin')->name('admin.')->
 
     Route::resource('categories', 'CategoryController')->parameters([ 'categories' => 'category:slug'])->except(['show', 'edit', 'create']);
 
+    Route::resource('tags', 'TagController')->parameters([ 'tags' => 'tag:slug'])->except(['show', 'edit', 'create']);
+
 });
 
 

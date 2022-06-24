@@ -13,7 +13,7 @@
         <input type="text" name="title" id="title" class="form-control @error('title') is-invalid @enderror" placeholder="Learn php article" aria-describedby="titleHelper" value="{{old('title', $post->title)}}">
         <small id="titleHelper" class="text-muted">Titolo del post, max: 150 carachters</small>
     </div>
-    <!-- TODO: Change to input type file -->
+
     <div class="d-flex w-100">
         <div class="media me-3">
             <img class="shadow" width="150" src="{{$post->cover_image}}" alt="{{$post->title}}">
@@ -26,6 +26,7 @@
         </div>
     </div>
 
+    <!-- CATEGORIES -->
     <div class="mb-4">
         <label for="category_id" class="form-label @error('category_id') is-invalid @enderror">Categories</label>
         <select class="form-control" name="category_id" id="category_id">
@@ -48,6 +49,25 @@
             @endif
 
         </select>
+    </div>
+
+        <!-- TAGS -->
+        <div class="mb-3">
+      <label for="tags" class="form-label">Tags</label>
+      <select multiple class="form-select" name="tags[]" id="tags" aria-label="Tags">
+        <option value="">Select tags</option>
+        @forelse($tags as $tag)
+
+        @if($errors->any())
+        <option value="{{$tag->id}}" {{ in_array($tag->id, old('tags')) ? 'selected' : '' }}>{{ $tag->name }}</option>
+        @else
+        <option value="{{$tag->id}}" {{ $post->tags->contains($tag->id) ? 'selected' : '' }}>{{ $tag->name }}</option>
+        @endif
+        @empty
+        <option value="">No Tags</option>
+
+        @endforelse
+      </select>
     </div>
 
     <div class="mb-4">

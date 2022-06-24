@@ -21,6 +21,7 @@
       <small id="cover_imageHelper" class="text-muted">Url image</small>
     </div>
 
+    <!-- CATEGORIES -->
     <div class="mb-3">
         <label for="category_id" class="form-label">Categories</label>
         <select class="form-control @error('category_id') is-invalid @enderror" name="category_id" id="category_id">
@@ -31,6 +32,21 @@
           
             @endforeach
         </select>
+    </div>
+
+    <!-- TAGS -->
+    <div class="mb-3">
+      <label for="tags" class="form-label">Tags</label>
+      <select multiple class="form-select" name="tags[]" id="tags" aria-label="Tags">
+        <option value="">Select tags</option>
+        @forelse($tags as $tag)
+        <option value="{{$tag->id}}">{{$tag->name}}</option>
+
+        @empty
+        <option value="">No Tags</option>
+
+        @endforelse
+      </select>
     </div>
 
     <div class="mb-3">
