@@ -36,7 +36,7 @@
                     <tr>
                         <td scope="row" class="align-middle">{{$tag->id}}</td>
                         <td class="align-middle">
-                            <form id="category-{{$tag->id}}" action="{{route('admin.tags.update', $tag->slug)}}" method="post">
+                            <form id="tags-{{$tag->id}}" action="{{route('admin.tags.update', $tag)}}" method="post">
                                 @csrf
                                 @method('PATCH')
                                 <input class="border-0 bg-transparent" type="text" name="name" value="{{$tag->name}}">
@@ -49,12 +49,12 @@
 
                         <td class="align-middle">
                             <span class="badge badge-info bg-dark">
-                                {{count($tag->post_id)}}
+                                {{count($tag->posts)}}
                             </span>
                         </td>
 
                         <td>
-                            <button form="category-{{$tag->id}}" type="submit" class="btn btn-primary m-1 text-white">
+                            <button form="tags-{{$tag->id}}" type="submit" class="btn btn-primary m-1 text-white">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
                                     <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
@@ -77,7 +77,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title">
-                                                Cancella <strong>{{$tag->slug}}</strong>
+                                                Cancella <strong>{{$tag->id}}</strong>
                                             </h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
@@ -88,7 +88,7 @@
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                                 Chiudi
                                             </button>
-                                            <form action="{{route('admin.Tags.destroy', $tag->slug)}}" method="post">
+                                            <form action="{{route('admin.tags.destroy', $tag)}}" method="post">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger text-white">
@@ -104,7 +104,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td scope="row">No Tags! Add your first category.</td>
+                        <td scope="row">No Tags! Add your first tags.</td>
 
                     </tr>
                     @endforelse
