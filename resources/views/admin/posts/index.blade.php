@@ -28,7 +28,7 @@
                 <td class="align-middle">{{$post->title}}</td>
                 <td class="align-middle">{{$post->slug}}</td>
                 <td class="align-middle">
-                    <img width="150" src="{{$post->cover_image}}" alt="{{$post->title}}">
+                    <img width="150" src="{{asset('storage/' . $post->cover_image)}}" alt="{{$post->title}}">
                 </td>
                 <td class="align-middle">
                     <a class="btn btn-primary text-white" href="{{route('admin.posts.show', $post)}}">

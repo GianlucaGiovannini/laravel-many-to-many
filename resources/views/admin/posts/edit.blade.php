@@ -5,7 +5,7 @@
 
 <h2 class="py-4">Edit {{$post->title}}</h2>
 @include('partials.errors')
-<form action="{{route('admin.posts.update', $post->slug)}}" method="post">
+<form action="{{route('admin.posts.update', $post->slug)}}" method="post" enctype="multipart/form-data">
     @csrf
     @method('PUT')
     <div class="mb-4">
@@ -16,12 +16,12 @@
 
     <div class="d-flex w-100">
         <div class="media me-3">
-            <img class="shadow" width="150" src="{{$post->cover_image}}" alt="{{$post->title}}">
+            <img class="shadow" width="150" src="{{asset('storage/' . $post->cover_image)}}" alt="{{$post->title}}">
         </div>
 
         <div class="mb-4 w-100">
-            <label for="cover_image">Cover Immagine</label>
-            <input type="text" name="cover_image" id="cover_image" class="form-control  @error('cover_image') is-invalid @enderror" placeholder="Learn php article" aria-describedby="cover_imageHelper" value="{{old('cover_image', $post->cover_image)}}">
+            <label for="cover_image">replace Immagine</label>
+            <input type="file" name="cover_image" id="cover_image" class="form-control  @error('cover_image') is-invalid @enderror" placeholder="Learn php article" aria-describedby="cover_imageHelper">
             <small id="cover_imageHelper" class="text-muted">Indirizzo Url dell'immagine</small>
         </div>
     </div>

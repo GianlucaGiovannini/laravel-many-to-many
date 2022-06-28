@@ -7,7 +7,7 @@
 <div class="posts py-5">
     <div class="row row-cols-2 pt-5 px-5">
         <div class="col px-3">
-            <img class="img-fluid" src="{{$post->cover_image}}" alt="{{$post->title}}">
+            <img class="img-fluid" src="{{asset('storage/' . $post->cover_image)}}" alt="{{$post->title}}">
         </div>
         <div class="col px-5 d-flex align-items-center">
             <div class="post-data pe-5">
